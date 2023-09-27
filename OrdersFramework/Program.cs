@@ -17,6 +17,7 @@ namespace OrdersFramework
 
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("Menu:");
                 Console.WriteLine("1. Login");
                 Console.WriteLine("2. Crea un nuovo utente");
@@ -63,11 +64,13 @@ namespace OrdersFramework
                         break;
                     case "3":
                         ListOrders();
+                        Console.ReadKey();
                         break;
                     case "4":
                         Console.Write("Inserisci l'ID dell'ordine: ");
                         int orderId = int.Parse(Console.ReadLine());
                         OrderDetails(orderId);
+                        Console.ReadKey();
                         break;
                     case "5":
                         if (loggedIn)
@@ -221,13 +224,6 @@ namespace OrdersFramework
             Console.WriteLine("Arrivederci!");
             Environment.Exit(0);
         }
-
-
-
-
-
-
-
 
     }
 }
