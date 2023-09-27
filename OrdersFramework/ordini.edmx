@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ordiniModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="customerId" />
+          </Key>
+          <Property Name="customerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer" Type="varchar" MaxLength="10" />
+          <Property Name="country" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="items">
+          <Key>
+            <PropertyRef Name="itemId" />
+          </Key>
+          <Property Name="itemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="item" Type="varchar" MaxLength="20" />
+          <Property Name="color" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="orderitems">
+          <Key>
+            <PropertyRef Name="orderid" />
+            <PropertyRef Name="itemId" />
+          </Key>
+          <Property Name="orderid" Type="int" Nullable="false" />
+          <Property Name="itemId" Type="int" Nullable="false" />
+          <Property Name="qty" Type="int" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="orderid" />
+          </Key>
+          <Property Name="orderid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customerId" Type="int" />
+          <Property Name="orderdate" Type="date" />
+        </EntityType>
+        <EntityType Name="utenti">
+          <Key>
+            <PropertyRef Name="login" />
+          </Key>
+          <Property Name="login" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK__orderitem__itemI__571DF1D5">
+          <End Role="items" Type="Self.items" Multiplicity="1" />
+          <End Role="orderitems" Type="Self.orderitems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="itemId" />
+            </Principal>
+            <Dependent Role="orderitems">
+              <PropertyRef Name="itemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderitem__order__5629CD9C">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="orderitems" Type="Self.orderitems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="orderid" />
+            </Principal>
+            <Dependent Role="orderitems">
+              <PropertyRef Name="orderid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__customer__534D60F1">
+          <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="customerId" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ordiniModelStoreContainer">
+          <EntitySet Name="customers" EntityType="Self.customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="items" EntityType="Self.items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orderitems" EntityType="Self.orderitems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="utenti" EntityType="Self.utenti" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__orderitem__itemI__571DF1D5" Association="Self.FK__orderitem__itemI__571DF1D5">
+            <End Role="items" EntitySet="items" />
+            <End Role="orderitems" EntitySet="orderitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderitem__order__5629CD9C" Association="Self.FK__orderitem__order__5629CD9C">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="orderitems" EntitySet="orderitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__customer__534D60F1" Association="Self.FK__orders__customer__534D60F1">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ordiniModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="customerId" />
+          </Key>
+          <Property Name="customerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__orders__customer__534D60F1" FromRole="customers" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="item">
+          <Key>
+            <PropertyRef Name="itemId" />
+          </Key>
+          <Property Name="itemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="item1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="color" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="orderitems" Relationship="Self.FK__orderitem__itemI__571DF1D5" FromRole="items" ToRole="orderitems" />
+        </EntityType>
+        <EntityType Name="orderitem">
+          <Key>
+            <PropertyRef Name="orderid" />
+            <PropertyRef Name="itemId" />
+          </Key>
+          <Property Name="orderid" Type="Int32" Nullable="false" />
+          <Property Name="itemId" Type="Int32" Nullable="false" />
+          <Property Name="qty" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="item" Relationship="Self.FK__orderitem__itemI__571DF1D5" FromRole="orderitems" ToRole="items" />
+          <NavigationProperty Name="order" Relationship="Self.FK__orderitem__order__5629CD9C" FromRole="orderitems" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="orderid" />
+          </Key>
+          <Property Name="orderid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customerId" Type="Int32" />
+          <Property Name="orderdate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="customer" Relationship="Self.FK__orders__customer__534D60F1" FromRole="orders" ToRole="customers" />
+          <NavigationProperty Name="orderitems" Relationship="Self.FK__orderitem__order__5629CD9C" FromRole="orders" ToRole="orderitems" />
+        </EntityType>
+        <EntityType Name="utenti">
+          <Key>
+            <PropertyRef Name="login" />
+          </Key>
+          <Property Name="login" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__orders__customer__534D60F1">
+          <End Role="customers" Type="Self.customer" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="customerId" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderitem__itemI__571DF1D5">
+          <End Role="items" Type="Self.item" Multiplicity="1" />
+          <End Role="orderitems" Type="Self.orderitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="itemId" />
+            </Principal>
+            <Dependent Role="orderitems">
+              <PropertyRef Name="itemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderitem__order__5629CD9C">
+          <End Role="orders" Type="Self.order" Multiplicity="1" />
+          <End Role="orderitems" Type="Self.orderitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="orderid" />
+            </Principal>
+            <Dependent Role="orderitems">
+              <PropertyRef Name="orderid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ordiniEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="customers" EntityType="Self.customer" />
+          <EntitySet Name="items" EntityType="Self.item" />
+          <EntitySet Name="orderitems" EntityType="Self.orderitem" />
+          <EntitySet Name="orders" EntityType="Self.order" />
+          <EntitySet Name="utentis" EntityType="Self.utenti" />
+          <AssociationSet Name="FK__orders__customer__534D60F1" Association="Self.FK__orders__customer__534D60F1">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderitem__itemI__571DF1D5" Association="Self.FK__orderitem__itemI__571DF1D5">
+            <End Role="items" EntitySet="items" />
+            <End Role="orderitems" EntitySet="orderitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderitem__order__5629CD9C" Association="Self.FK__orderitem__order__5629CD9C">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="orderitems" EntitySet="orderitems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ordiniModelStoreContainer" CdmEntityContainer="ordiniEntities">
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="ordiniModel.customer">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="customer1" ColumnName="customer" />
+                <ScalarProperty Name="country" ColumnName="country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="items">
+            <EntityTypeMapping TypeName="ordiniModel.item">
+              <MappingFragment StoreEntitySet="items">
+                <ScalarProperty Name="itemId" ColumnName="itemId" />
+                <ScalarProperty Name="item1" ColumnName="item" />
+                <ScalarProperty Name="color" ColumnName="color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderitems">
+            <EntityTypeMapping TypeName="ordiniModel.orderitem">
+              <MappingFragment StoreEntitySet="orderitems">
+                <ScalarProperty Name="orderid" ColumnName="orderid" />
+                <ScalarProperty Name="itemId" ColumnName="itemId" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="ordiniModel.order">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="orderid" ColumnName="orderid" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="orderdate" ColumnName="orderdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="utentis">
+            <EntityTypeMapping TypeName="ordiniModel.utenti">
+              <MappingFragment StoreEntitySet="utenti">
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
